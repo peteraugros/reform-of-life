@@ -984,3 +984,33 @@ body.cover :focus-visible { outline: 2px solid #C9A45C; outline-offset: 3px; }
   from { opacity: 0.82; }
   to   { opacity: 1; }
 }
+
+/* ---------------------------------------------------------------------
+   A heading block that is itself the link (the Gospels page).
+
+   The book name alone was a small target for a thumb, so the whole block
+   carries the link: the chapter count, the title and the summary line. Safe
+   only because every one of those blocks contains exactly one link; a block
+   holding two would nest anchors, which is invalid and unclickable.
+   --------------------------------------------------------------------- */
+a.set-head-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  border-radius: 3px;
+  margin: -0.5rem -0.6rem 0.8rem;
+  padding: 0.5rem 0.6rem;
+  transition: background-color 140ms ease;
+}
+a.set-head-link:hover,
+a.set-head-link:focus-visible { background: var(--paper-sunk); }
+/* The title still carries the underline, so it still reads as the link even
+   though the whole block is one. */
+a.set-head-link h3 {
+  text-decoration: underline;
+  text-decoration-color: var(--hairline);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+a.set-head-link:hover h3 { color: var(--rubric); text-decoration-color: var(--rubric); }
+@media print { a.set-head-link h3 { text-decoration: none; } }

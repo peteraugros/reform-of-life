@@ -139,6 +139,28 @@
     }
   }
 
+  /* The card as words, for the share sheet and the clipboard. Built from the
+     same picked set the card renders from, so the two can never disagree. */
+  function cardAsText(sinceInput) {
+    var when = (sinceInput && sinceInput.value.trim()) || "___";
+    var lines = [
+      "Bless me, Father, for I have sinned. It has been " + when + " since my last confession.",
+      ""
+    ];
+    GROUPS.forEach(function (g, gi) {
+      g.items.forEach(function (pair, ii) {
+        if (picked[gi + ":" + ii]) lines.push("\u2022 " + pair[1]);
+      });
+    });
+    lines.push("", "I am sorry for these and all my sins.", "");
+    lines.push("Act of contrition:");
+    lines.push("My God, I am sorry for my sins with all my heart. In choosing to do wrong and "
+      + "failing to do good, I have sinned against you, whom I should love above all things. I "
+      + "firmly intend, with your help, to do penance, to sin no more, and to avoid whatever "
+      + "leads me to sin. Amen.");
+    return lines.join("\n");
+  }
+
   function renderCard() {
     cardHost.innerHTML = "";
     document.body.classList.add("card-open");
@@ -179,13 +201,60 @@
       "He absolves you; you answer “Amen.” Then do your penance before you leave. "
       + "Anything not on this card that comes to mind, say it anyway; the list is a help, not a limit."));
 
+    /* ---- taking it with you ----
+       🔴 PRINTING IS A DESKTOP ANSWER AND THIS IS READ ON A PHONE.
+       On Android the print sheet at least offers "Save as PDF"; on an iPhone
+       the only way out is a small share icon in the corner of the preview,
+       which almost nobody finds. So the phone gets a phone answer first: the
+       system share sheet, which puts the card straight into Notes, Files or
+       a message, all of which the reader already knows how to find again.
+       Copy is the fallback for anything without a share sheet, and printing
+       stays for a computer, labelled honestly rather than promised. */
+    /* ⚠️ Built at the moment of tapping, never at render. The blank for how
+       long it has been is filled in AFTER the card appears, so text captured
+       when the card was drawn would always carry an empty one. */
     var row = el("div", "card-actions exam-actions");
-    var print = el("button", "card-btn", "Save as PDF or print");
+
+    if (navigator.share) {
+      var share = el("button", "card-btn", "Save or send it");
+      share.type = "button";
+      share.addEventListener("click", function () {
+        navigator.share({ title: "Confession card", text: cardAsText(since) })
+          .catch(function () { /* the reader dismissed the sheet; not an error */ });
+      });
+      row.appendChild(share);
+    }
+
+    var copy = el("button", "tool-btn", "Copy the words");
+    copy.type = "button";
+    copy.addEventListener("click", function () {
+      var plain = cardAsText(since);
+      var done = function () {
+        copy.textContent = "Copied. Paste it into your notes.";
+        setTimeout(function () { copy.textContent = "Copy the words"; }, 4000);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(plain).then(done, function () { window.prompt("Copy this:", plain); });
+      } else {
+        window.prompt("Copy this:", plain);
+      }
+    });
+    row.appendChild(copy);
+
+    var print = el("button", "tool-btn quiet", "Print");
     print.type = "button";
     print.addEventListener("click", function () { window.print(); });
     row.appendChild(print);
-    row.appendChild(el("span", "exam-count", "Nothing was saved. Closing this page erases it."));
+
     card.appendChild(row);
+
+    var how = el("p", "record-note");
+    how.textContent =
+      "On a phone the quickest thing of all is a screenshot; it goes to your photos and you "
+      + "will find it again without looking. Otherwise \u201cSave or send it\u201d opens the usual "
+      + "share sheet, so you can drop it into Notes or send it to yourself. Whatever you do not "
+      + "save disappears when you close this page, which is the way it should be.";
+    card.appendChild(how);
 
     cardHost.appendChild(card);
     cardHost.scrollIntoView({ behavior: "smooth", block: "start" });
