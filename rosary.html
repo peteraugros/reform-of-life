@@ -53,8 +53,8 @@
         You begin at the crucifix, work up the short strand to the medal,
         then travel the loop once, all the way around.
       </figcaption>
-      <p class="record-note" style="text-align:center;margin-top:-0.4rem">
-        Touch or hover any bead to see what is prayed there.
+      <p class="bead-hint">
+        Tap any bead to see which prayer belongs there.
       </p>
     </figure>
 
@@ -453,8 +453,13 @@
       var isSeparator = i % 11 === 0;
       var decade = Math.floor(i / 11);
       var within = i % 11;
+      /* The FIRST mystery was announced back at the medal, so the first
+         large bead only carries its Our Father; every later one announces
+         the mystery its decade belongs to. */
       var label = isSeparator
-        ? "Announce the " + ORD[decade] + " mystery, then pray one Our Father."
+        ? (decade === 0
+            ? "Pray one Our Father, to begin the first decade."
+            : "Announce the " + ORD[decade] + " mystery, then pray one Our Father.")
         : "Hail Mary, " + within + " of 10 in the " + ORD[decade] + " decade.";
       var a = (START + STEP * (i + 0.5)) * (Math.PI / 180);
       svg.appendChild(bead(
@@ -466,17 +471,27 @@
     /* the medal */
     svg.appendChild(speaks(el("circle", {
       cx: CX, cy: CY + R, r: 9, fill: PAPER, stroke: INK, "stroke-width": 1.6
-    }), "The medal. You announce each mystery here, and finish here with the Hail, Holy Queen."));
-    svg.appendChild(el("circle", { cx: CX, cy: CY + R, r: 4, fill: RED }));
+    }), "The medal. Announce the first mystery here. You come back to it at the end for the Hail, Holy Queen."));
+    /* Decoration only. Without this it sits on top of the medal and
+       swallows the tap meant for the medal underneath, so the most
+       obvious thing on the diagram to touch was the one dead spot. */
+    svg.appendChild(el("circle", {
+      cx: CX, cy: CY + R, r: 4, fill: RED, "pointer-events": "none"
+    }));
 
     /* the pendant strand */
     var top = CY + R + 9;
+    /* 🔴 dy GROWS DOWNWARD, TOWARD THE CRUCIFIX, AND THE STRAND IS PRAYED
+       UPWARD. The bead nearest the crucifix is the first one you touch and
+       the bead nearest the medal is the last. Labelling these in drawing
+       order ran every line on the strand backwards, faith and charity
+       included. */
     var stops = [
-      { dy: 20, big: true,  t: "Pray one Our Father." },
-      { dy: 38, big: false, t: "The first of three Hail Marys, traditionally for faith." },
+      { dy: 84, big: true,  t: "Pray one Our Father, the first bead after the crucifix." },
+      { dy: 66, big: false, t: "The first of three Hail Marys, traditionally for faith." },
       { dy: 52, big: false, t: "The second of three Hail Marys, traditionally for hope." },
-      { dy: 66, big: false, t: "The third of three Hail Marys, traditionally for charity." },
-      { dy: 84, big: true,  t: "Pray one Glory Be, then go on to the medal." }
+      { dy: 38, big: false, t: "The third of three Hail Marys, traditionally for charity." },
+      { dy: 20, big: true,  t: "Pray one Glory Be, then go on to the medal." }
     ];
     svg.appendChild(el("line", {
       x1: CX, y1: top, x2: CX, y2: top + 96,

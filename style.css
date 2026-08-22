@@ -1038,3 +1038,15 @@ a.set-head-link:hover h3 { color: var(--rubric); text-decoration-color: var(--ru
 /* Held at a fixed height so the page does not jump as the line changes
    length under the reader's finger. */
 #bead-caption { min-height: 3.2em; }
+
+/* The invitation under the diagram. Centred with the figure, and quiet
+   enough that it does not compete with the caption above it. */
+.bead-hint {
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  color: var(--rubric);
+  text-align: center;
+  margin: -0.3rem 0 0;
+}
+@media print { .bead-hint { display: none; } }
