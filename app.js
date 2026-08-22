@@ -181,8 +181,8 @@
 
     var note = el("p", "record-note");
     note.textContent = isComplete(rec, p)
-      ? "Tap any line again if you logged it by mistake."
-      : "Tap each one after you have done it. Kept on this device only.";
+      ? "Tap any line again if you marked it by mistake."
+      : "Mark each one after you have done it. Kept on this device, and nowhere else.";
     card.appendChild(note);
 
     host.appendChild(card);
@@ -224,14 +224,14 @@
     var open = remaining === 0;
     var box = el("div", "layer-two" + (open ? " open" : ""));
 
-    box.appendChild(el("span", "label", open ? "Now open" : "Locked"));
+    box.appendChild(el("span", "label", open ? "Now open" : "Still to come"));
     box.appendChild(el("h3", null, "The second layer"));
 
     var names = LAYER_TWO.map(function (p) { return p.title; }).join(", ");
     box.appendChild(el("p", "layer-two-blurb",
       open
-        ? "You have finished all four. " + names + " are open."
-        : "Four more practices are waiting behind the first four: " + names + "."));
+        ? "You have worked through the first four. " + names + " are open to you now."
+        : "There are four more practices after these: " + names + "."));
 
     if (open) {
       var links = el("div", "layer-two-links");
@@ -243,16 +243,16 @@
       box.appendChild(links);
     } else {
       var req = el("p", "layer-two-req");
-      req.appendChild(el("strong", null, "To open it: "));
+      req.appendChild(el("strong", null, "They open "));
       req.appendChild(document.createTextNode(
-        "pray each of the four sets of mysteries once, read Mark straight through in four weeks, "
-        + "go to confession once, and be at Mass four Sundays."));
+        "once you have prayed each of the four sets of mysteries, read Mark straight through, "
+        + "gone to Confession, and been at Mass four Sundays. Take as long as you need."));
       box.appendChild(req);
 
       box.appendChild(el("p", "layer-two-count",
         afterRecord
           ? plural(remaining, "step") + " to go."
-          : "Thirteen steps in all. Start anywhere."));
+          : "Thirteen steps altogether. Begin wherever you like."));
     }
     return box;
   }
@@ -263,12 +263,13 @@
     if (unlocked(rec)) { host.innerHTML = ""; return; }
     host.innerHTML = "";
     var box = el("div", "gate");
-    box.appendChild(el("span", "label", "Not open yet"));
+    box.appendChild(el("span", "label", "Still to come"));
     box.appendChild(el("p", null,
-      "This is part of the second layer, which opens once the first four are finished; "
+      "This practice comes after the first four, and you have "
       + plural(layerOneRemaining(rec), "step") + " to go. "
-      + "Nothing is hidden from you, so read on if you would rather. It is here when you are."));
-    var a = el("a", null, "Back to the four");
+      + "Nothing here is hidden from you, so read it now if you would like. "
+      + "It will still be here when you are ready for it."));
+    var a = el("a", null, "Back to the first four");
     a.href = "practices.html";
     box.appendChild(a);
     host.appendChild(box);
@@ -284,7 +285,7 @@
     exportBtn.addEventListener("click", function () {
       var code = btoa(unescape(encodeURIComponent(JSON.stringify(load()))));
       var done = function () {
-        exportBtn.textContent = "Copied. Paste it somewhere safe.";
+        exportBtn.textContent = "Copied. Keep it somewhere safe.";
         setTimeout(function () { exportBtn.textContent = "Copy my record"; }, 4000);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -324,9 +325,9 @@
     host.appendChild(wrap);
 
     host.appendChild(el("p", "record-note",
-      "Your record is kept on this device and nowhere else. Nobody, including whoever made this, "
-      + "can see it. That also means it does not follow you to another phone unless you copy it across, "
-      + "and clearing your browser data clears it."));
+      "Your record is kept on this device and nowhere else. Nobody can see it, including me. "
+      + "That also means it will not follow you to another phone unless you copy it across, and "
+      + "clearing your browser data clears it."));
   }
 
   function renderAll() {
