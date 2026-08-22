@@ -2,7 +2,7 @@
   "name": "Reform of Life",
   "short_name": "Reform",
   "description": "Four practices to begin with, and four more behind them.",
-  "start_url": "index.html",
+  "start_url": "practices.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

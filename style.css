@@ -738,3 +738,229 @@ footer.colophon a { color: var(--ink-soft); }
   text-decoration: none;
 }
 .colophon a:hover { color: var(--rubric); }
+
+/* ---------------------------------------------------------------------
+   THE COVER
+
+   The one screen on the site with its own committed palette: the church
+   interior, dark and gold. Everything behind the door is paper and ink, and
+   the contrast is deliberate rather than an inconsistency; a book does not
+   look like its cover.
+
+   Single-theme on purpose, so no dark-mode block. It still paints its own
+   background and every colour explicitly, so it holds on either host ground.
+   --------------------------------------------------------------------- */
+body.cover {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;          /* dvh, so mobile browser chrome cannot crop it */
+  background: #0E0B08;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* On a phone the poster is the whole screen. On anything wider it becomes a
+   centred panel rather than a stretched background, because the artwork is
+   nearly square and stretching it edge to edge on a desktop would crop the
+   angels out of their own picture. */
+.poster {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  isolation: isolate;
+}
+@media (min-width: 620px) and (min-height: 720px) {
+  .poster {
+    min-height: min(92dvh, 860px);
+    border-radius: 4px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.55);
+  }
+}
+
+.poster-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The artwork is padded to 2:3 in the file itself, so on a phone it very
+     nearly fits and almost nothing is cropped; the angels stay in frame. */
+  object-position: center top;
+  z-index: -2;
+}
+
+/* The artwork fades to near-black at the bottom already; this deepens it just
+   enough that the type sits on a field rather than on vestment detail. */
+.poster-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    rgba(14,11,8,0) 42%,
+    rgba(14,11,8,0.72) 66%,
+    rgba(14,11,8,0.94) 84%,
+    #0E0B08 100%
+  );
+}
+
+.poster-text {
+  position: relative;
+  padding: 0 1.6rem 3rem;
+  text-align: center;
+}
+
+.poster-title {
+  font-family: "EB Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 13vw, 3.9rem);
+  line-height: 1;
+  letter-spacing: 0.005em;
+  margin: 0;
+  color: #F2E2BC;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.6);
+}
+
+.poster-rule {
+  color: #C9A45C;
+  font-size: 0.9rem;
+  margin: 1.1rem 0 1rem;
+  opacity: 0.9;
+}
+
+.poster-motto {
+  font-family: "Archivo", Helvetica, Arial, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 2;
+  color: #DCC9A0;
+  margin: 0;
+}
+
+.poster-enter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  min-width: 200px;
+  margin-top: 2rem;
+  padding: 0.85rem 2.6rem;
+  font-family: "Archivo", Helvetica, Arial, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #F2E2BC;
+  border: 1px solid rgba(201,164,92,0.65);
+  border-radius: 3px;
+  background: rgba(14,11,8,0.35);
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+.poster-enter:hover, .poster-enter:focus-visible {
+  background: rgba(201,164,92,0.16);
+  border-color: #C9A45C;
+  color: #FFF4DC;
+}
+body.cover :focus-visible { outline: 2px solid #C9A45C; outline-offset: 3px; }
+
+/* One quiet entrance: the light, then the words. Anything more would be a
+   website performing, and this should feel like opening a book. */
+@media (prefers-reduced-motion: no-preference) {
+  .poster-text > * { animation: cover-in 900ms ease-out both; }
+  .poster-title { animation-delay: 120ms; }
+  .poster-rule  { animation-delay: 300ms; }
+  .poster-motto { animation-delay: 420ms; }
+  .poster-enter { animation-delay: 620ms; }
+}
+@keyframes cover-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------------------------------------------------------------------
+   TURNING THE PAGE
+
+   Cross-document view transitions, so moving between pages reads as a leaf
+   turning in a missal rather than a screen being replaced. The outgoing page
+   swings away about its inner edge with a shadow falling across it; the page
+   beneath is already there, which is exactly what a book does.
+
+   Direction is real: going deeper turns forward, coming back turns back.
+   Without that the animation would fight the gesture, and a book that turned
+   the same way whichever way you went would feel wrong before you could say
+   why.
+
+   Degrades to an ordinary navigation where the API is missing (Firefox at
+   time of writing), which costs nothing but the flourish. Suppressed
+   entirely under prefers-reduced-motion, since this is a large moving
+   surface and that is precisely what the setting is for.
+   --------------------------------------------------------------------- */
+@view-transition { navigation: auto; }
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition { perspective: 2000px; }
+  ::view-transition-image-pair(root) { transform-style: preserve-3d; }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+    backface-visibility: hidden;
+  }
+
+  /* forward: the leaf lifts from the right and swings left */
+  html:active-view-transition-type(forward)::view-transition-old(root) {
+    transform-origin: left center;
+    animation: leaf-away 720ms cubic-bezier(0.36, 0, 0.2, 1) both;
+    z-index: 2;
+  }
+  html:active-view-transition-type(forward)::view-transition-new(root) {
+    animation: leaf-under 720ms ease-out both;
+    z-index: 1;
+  }
+
+  /* back: the same leaf comes down again from the left */
+  html:active-view-transition-type(back)::view-transition-new(root) {
+    transform-origin: left center;
+    animation: leaf-back 720ms cubic-bezier(0.36, 0, 0.2, 1) both;
+    z-index: 2;
+  }
+  html:active-view-transition-type(back)::view-transition-old(root) {
+    animation: leaf-under 720ms ease-out both;
+    z-index: 1;
+  }
+
+  /* If the browser gives us no type, still turn rather than cross-fade. */
+  html:not(:active-view-transition-type(back))::view-transition-old(root) {
+    transform-origin: left center;
+    animation: leaf-away 720ms cubic-bezier(0.36, 0, 0.2, 1) both;
+    z-index: 2;
+  }
+}
+
+@keyframes leaf-away {
+  from { transform: rotateY(0deg);   filter: brightness(1); }
+  60%  {                             filter: brightness(0.86); }
+  to   { transform: rotateY(-96deg); filter: brightness(0.7); }
+}
+@keyframes leaf-back {
+  from { transform: rotateY(-96deg); filter: brightness(0.7); }
+  to   { transform: rotateY(0deg);   filter: brightness(1); }
+}
+/* The page underneath does not move; it only settles, the way the next leaf
+   of a book is already lying there before you lift the one on top of it. */
+@keyframes leaf-under {
+  from { opacity: 0.82; }
+  to   { opacity: 1; }
+}

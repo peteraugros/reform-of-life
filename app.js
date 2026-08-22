@@ -269,7 +269,7 @@
       + plural(layerOneRemaining(rec), "step") + " to go. "
       + "Nothing is hidden from you, so read on if you would rather. It is here when you are."));
     var a = el("a", null, "Back to the four");
-    a.href = "index.html";
+    a.href = "practices.html";
     box.appendChild(a);
     host.appendChild(box);
   }
@@ -337,6 +337,36 @@
     n = document.querySelector("[data-gate]");    if (n) renderGate(n);
     n = document.querySelector("[data-tools]");   if (n) renderTools(n);
   }
+
+  /* ---------------------- turning the page ----------------------
+     Which way the leaf turns. The CSS does the animation; this only says
+     whether we are going deeper into the book or coming back, because an
+     animation that ignores the direction of travel feels wrong before a
+     reader can say why.
+
+     Depth, not history: the cover is the outside, the practices page is the
+     table of contents, and everything else is a leaf further in. Using the
+     back button versus a link makes no difference, which is right, since a
+     book does not care how you reached the page you are leaving. */
+  function depthOf(pathname) {
+    var file = pathname.split("/").pop() || "index.html";
+    if (file === "" || file === "index.html") return 0;
+    if (file === "practices.html") return 1;
+    return 2;
+  }
+  function tagDirection(vt, fromPath, toPath) {
+    if (!vt || !vt.types || typeof vt.types.add !== "function") return;
+    vt.types.add(depthOf(toPath) >= depthOf(fromPath) ? "forward" : "back");
+  }
+  window.addEventListener("pageswap", function (e) {
+    if (!e.viewTransition || !e.activation || !e.activation.entry) return;
+    tagDirection(e.viewTransition, location.pathname, new URL(e.activation.entry.url).pathname);
+  });
+  window.addEventListener("pagereveal", function (e) {
+    if (!e.viewTransition || !e.activation) return;
+    var from = e.activation.from ? new URL(e.activation.from.url).pathname : "/index.html";
+    tagDirection(e.viewTransition, from, location.pathname);
+  });
 
   /* ---------------------- install / offline ---------------------- */
   if ("serviceWorker" in navigator) {

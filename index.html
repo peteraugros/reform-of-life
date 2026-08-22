@@ -4,97 +4,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reform of Life</title>
-<meta name="description" content="Eight short guides to ordinary Catholic practice, in two layers. Keep a record on your own device; install it like an app.">
-<meta name="theme-color" content="#FBFAF7">
+<meta name="description" content="Return to Christ. Renew your heart. Transform your life. Eight practices to begin with, or to begin again.">
+<meta name="theme-color" content="#0E0B08">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Reform">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="preload" as="image" href="eucharist.jpg" imagesrcset="eucharist-640.jpg 640w, eucharist.jpg 1024w">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Archivo:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600&family=Archivo:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="style.css">
 <script src="app.js" defer></script>
 </head>
-<body>
+<body class="cover">
 
-<div class="sheet">
+<!-- =====================================================================
+     THE FRONTISPIECE.
 
-  <header class="masthead" style="padding-top: 2rem;">
-    <span class="label">Four practices</span>
-    <h1>Reform of Life</h1>
-    <p class="dedication">Nobody arrives at any of this knowing how it works. These are the practical instructions, the ones that are usually assumed and rarely said out loud.</p>
-  </header>
+     A missal opens on a full-page image before a word of text, and this is
+     that page. It is the one screen on the site with its own palette: the
+     church interior, dark and gold and candlelit. Entering opens into the
+     missal itself, which is paper and ink and red. The contrast is the
+     point, the way a book feels different from its cover.
 
-  <!-- The rhythm is the point. A rule of life is not four good ideas, it
-       is four things placed at different intervals, and seeing the
-       intervals together is most of understanding it. -->
-  <ol class="contents">
-    <li>
-      <a class="entry" href="rosary.html">
-        <span class="numeral">I</span>
-        <span>
-          <span class="entry-rhythm">Daily &middot; about 20 minutes</span>
-          <span class="entry-title">The Rosary</span>
-          <span class="entry-blurb">The beads keep count so your mind is free to do the actual work. All twenty mysteries, every prayer in full, and what to do with the ten beads in between.</span>
-        </span>
-      </a>
-    </li>
-    <li>
-      <a class="entry" href="gospels.html">
-        <span class="numeral">II</span>
-        <span>
-          <span class="entry-rhythm">Daily &middot; about 10 minutes</span>
-          <span class="entry-title">The Gospels</span>
-          <span class="entry-blurb">Four accounts of the same life, each written for different people. Where to start, how to read slowly enough for it to land, and a first month that ends with a whole Gospel behind you.</span>
-        </span>
-      </a>
-    </li>
-    <li>
-      <a class="entry" href="confession.html">
-        <span class="numeral">III</span>
-        <span>
-          <span class="entry-rhythm">Every month or so</span>
-          <span class="entry-title">Confession</span>
-          <span class="entry-blurb">Almost everyone who stays away stays away because they do not know what to say. Here is exactly what you say, in order, including the part where you admit you have forgotten how.</span>
-        </span>
-      </a>
-    </li>
-    <li>
-      <a class="entry" href="mass.html">
-        <span class="numeral">IV</span>
-        <span>
-          <span class="entry-rhythm">Every Sunday &middot; about an hour</span>
-          <span class="entry-title">The Mass</span>
-          <span class="entry-blurb">The shape of it, when to stand and kneel and why, the responses you will need, and what happens at communion. Written for someone who does not want to be the one guessing.</span>
-        </span>
-      </a>
-    </li>
-  </ol>
+     The title, motto and button are REAL TEXT set over the artwork rather
+     than baked into it. That keeps them crisp at every size, selectable and
+     translatable, lets the button take keyboard focus, and means the wording
+     can change without touching the image.
+     ===================================================================== -->
+<main class="poster">
 
-  <div data-summary></div>
+  <img class="poster-art"
+       src="eucharist.jpg"
+       srcset="eucharist-640.jpg 640w, eucharist.jpg 1024w"
+       sizes="(max-width: 620px) 100vw, 560px"
+       alt="A vested priest raises the Eucharist at Mass. The host stands where his face would be, so that only Christ is seen, ringed with light, while two angels bow on either side.">
 
-  <section>
-    <h2>Where to begin</h2>
-    <p>Do not begin with all four at once. Pick the one you are closest to already and do that badly for a month; a practice you actually keep beats a better one you abandon in a week.</p>
-    <p>The order above is roughly the order of difficulty, not the order of importance. If you have been away a long time, the third one is the door back in, and it is a much shorter conversation than you are imagining.</p>
-  </section>
+  <div class="poster-scrim" aria-hidden="true"></div>
 
-  <section id="record">
-    <span class="label">Keeping track</span>
-    <h2>Your record</h2>
-    <p>Tap each step on its own page as you do it. The four practices above are the first layer; finishing all of them opens the second.</p>
-    <p><strong>Install it.</strong> On an iPhone or iPad, open this in Safari, press Share, then <em>Add to Home Screen</em>. On Android, open the browser menu and choose <em>Install</em>. It then works with no signal at all, which is the case that matters in a church basement or on a plane.</p>
-    <div data-tools></div>
-  </section>
+  <div class="poster-text">
+    <h1 class="poster-title">Reform of Life</h1>
 
-  <footer class="colophon">
-    <p>Ask again about anything here. That is what it is for.</p>
-    <a href="contact.html">Questions, comments, prayer requests</a>
-  </footer>
+    <div class="poster-rule" aria-hidden="true">&#10013;</div>
 
-</div>
+    <p class="poster-motto">Return to Christ.<br>Renew your heart.<br>Transform your life.</p>
+
+    <a class="poster-enter" href="practices.html">Enter</a>
+  </div>
+
+</main>
+
 </body>
 </html>

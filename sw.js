@@ -14,10 +14,11 @@
    what you publish is what people read. Offline behaviour is identical.
    --------------------------------------------------------------------- */
 
-var CACHE = "rol-v1";
+var CACHE = "rol-v2";
 
 var SHELL = [
   "index.html",
+  "practices.html",
   "rosary.html",
   "gospels.html",
   "confession.html",
@@ -78,7 +79,7 @@ self.addEventListener("fetch", function (e) {
       return res;
     }).catch(function () {
       return caches.match(req).then(function (hit) {
-        return hit || caches.match("index.html");
+        return hit || caches.match("practices.html");
       });
     })
   );
