@@ -14,7 +14,7 @@
    what you publish is what people read. Offline behaviour is identical.
    --------------------------------------------------------------------- */
 
-var CACHE = "rol-v3";
+var CACHE = "rol-v4";
 
 var SHELL = [
   "index.html",

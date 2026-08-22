@@ -1014,3 +1014,27 @@ a.set-head-link h3 {
 }
 a.set-head-link:hover h3 { color: var(--rubric); text-decoration-color: var(--rubric); }
 @media print { a.set-head-link h3 { text-decoration: none; } }
+
+/* A bead you can ask a question of. The cursor and the small grow on hover
+   are the only signal that the diagram is interactive; anything louder would
+   turn a quiet illustration into a control panel. */
+.bead-hit { cursor: pointer; }
+.bead-hit:hover { stroke-width: 2.6; }
+@media (hover: none) {
+  /* No hover on a phone, so nothing to grow; tap still speaks. */
+  .bead-hit:hover { stroke-width: 1.4; }
+}
+#bead-caption { min-height: 3.2em; transition: none; }
+
+/* A bead you can ask a question of. The cursor and a slightly heavier stroke
+   on hover are the only hint that the diagram answers; anything louder would
+   turn a quiet illustration into a control panel. */
+.bead-hit { cursor: pointer; }
+.bead-hit:hover { stroke-width: 2.6; }
+@media (hover: none) {
+  /* No hover on a phone, so nothing to thicken; tapping still speaks. */
+  .bead-hit:hover { stroke-width: 1.4; }
+}
+/* Held at a fixed height so the page does not jump as the line changes
+   length under the reader's finger. */
+#bead-caption { min-height: 3.2em; }

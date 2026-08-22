@@ -49,10 +49,13 @@
       <svg id="rosary-diagram" viewBox="0 0 300 400" role="img"
            aria-label="Diagram of a rosary: a crucifix, then a single bead, three beads, and another single bead, joining a loop of five sets of ten beads separated by single beads.">
       </svg>
-      <figcaption>
+      <figcaption id="bead-caption" aria-live="polite">
         You begin at the crucifix, work up the short strand to the medal,
         then travel the loop once, all the way around.
       </figcaption>
+      <p class="record-note" style="text-align:center;margin-top:-0.4rem">
+        Touch or hover any bead to see what is prayed there.
+      </p>
     </figure>
 
     <p>You begin at the crucifix and move through the beads until you have prayed five decades.</p>
@@ -355,7 +358,6 @@
     <p>Put the beads somewhere you will see them.</p>
     <p>And then pray.</p>
     <p>If you miss a day, pray again tomorrow. If you miss a week, pray again.</p>
-    <p>Don't turn the Rosary into another thing you failed at.</p>
     <p><strong>The point is not to become someone who has successfully completed a certain number of Rosaries. The point is to become someone who spends time with Christ.</strong></p>
 
     <blockquote>
@@ -373,36 +375,73 @@
 </div>
 
 <script>
-  /* The diagram is drawn rather than hand-authored: 59 beads is a lot of
-     markup to keep correct, and the geometry is simpler to state than to
-     type. Runs synchronously so print always has it. */
+  /* The rosary diagram, drawn and then made to answer a question.
+     ------------------------------------------------------------------
+     59 beads is more geometry than markup, so the shape is computed
+     rather than hand-authored.
+
+     🔴 THE BEADS SPEAK THROUGH THE CAPTION, NOT A TOOLTIP. A floating
+     tooltip fails three ways here: there is no hover on a phone and this
+     is read on phones; a box large enough for a sentence covers the very
+     diagram it explains; and it would mean a second copy of prayer text
+     that could drift from Part five. A fixed caption underneath has room
+     for a sentence, behaves the same under tap, hover and screen reader,
+     and never obscures anything.
+
+     The beads carry the NAME of the prayer and what to do, not the words.
+     The words are in Part five, once, where they can be read properly.
+
+     No tabindex on 59 beads: that would be 59 tab stops for information
+     the page already gives as ordinary text in Part two. This is an
+     enhancement over content that is fully available without it. */
   (function () {
     var svg = document.getElementById("rosary-diagram");
+    var cap = document.getElementById("bead-caption");
     if (!svg) return;
     var NS = "http://www.w3.org/2000/svg";
 
     var CX = 150, CY = 130, R = 118;
     var INK = "var(--ink)", RED = "var(--rubric)", PAPER = "var(--paper)";
+    var resting = cap ? cap.textContent.trim() : "";
 
     function el(name, attrs) {
       var n = document.createElementNS(NS, name);
       for (var k in attrs) n.setAttribute(k, attrs[k]);
       return n;
     }
-    function bead(x, y, r, accent) {
-      return el("circle", {
+
+    function speaks(node, text) {
+      if (!cap) return node;
+      node.setAttribute("class", "bead-hit");
+      node.addEventListener("mouseenter", function () { cap.textContent = text; });
+      /* Tap is the phone gesture and it must stick: on touch, mouseenter
+         fires and the pointer leaves at once, so click re-sets it. */
+      node.addEventListener("click", function () { cap.textContent = text; });
+      return node;
+    }
+
+    function bead(x, y, r, accent, label) {
+      var c = el("circle", {
         cx: x, cy: y, r: r,
         fill: accent ? RED : PAPER,
         stroke: accent ? RED : INK,
         "stroke-width": 1.4
       });
+      return label ? speaks(c, label) : c;
     }
+
+    /* Moving off the diagram returns it to what it says at rest, rather
+       than leaving the last bead's line stranded there. */
+    svg.addEventListener("mouseleave", function () {
+      if (cap) cap.textContent = resting;
+    });
 
     /* 55 beads = 5 x (1 large + 10 small), spread over 346 degrees rather
        than the full circle. The 14 degree gap at the bottom is for the
        medal; without it, bead 27 lands exactly underneath. */
     var TOTAL = 55, GAP = 14;
     var START = 90 + GAP / 2, STEP = (360 - GAP) / TOTAL;
+    var ORD = ["first", "second", "third", "fourth", "fifth"];
 
     svg.appendChild(el("circle", {
       cx: CX, cy: CY, r: R, fill: "none", stroke: "var(--hairline)", "stroke-width": 1.2
@@ -412,48 +451,57 @@
       /* Every 11th bead is the large one: the Our Father that opens a
          decade. Bead 0 is the first after the medal, where you start. */
       var isSeparator = i % 11 === 0;
+      var decade = Math.floor(i / 11);
+      var within = i % 11;
+      var label = isSeparator
+        ? "Announce the " + ORD[decade] + " mystery, then pray one Our Father."
+        : "Hail Mary, " + within + " of 10 in the " + ORD[decade] + " decade.";
       var a = (START + STEP * (i + 0.5)) * (Math.PI / 180);
       svg.appendChild(bead(
-        CX + R * Math.cos(a),
-        CY + R * Math.sin(a),
-        isSeparator ? 5.4 : 3.9,
-        isSeparator
+        CX + R * Math.cos(a), CY + R * Math.sin(a),
+        isSeparator ? 5.4 : 3.9, isSeparator, label
       ));
     }
 
     /* the medal */
-    svg.appendChild(el("circle", {
+    svg.appendChild(speaks(el("circle", {
       cx: CX, cy: CY + R, r: 9, fill: PAPER, stroke: INK, "stroke-width": 1.6
-    }));
+    }), "The medal. You announce each mystery here, and finish here with the Hail, Holy Queen."));
     svg.appendChild(el("circle", { cx: CX, cy: CY + R, r: 4, fill: RED }));
 
     /* the pendant strand */
     var top = CY + R + 9;
     var stops = [
-      { dy: 20, big: true },
-      { dy: 38, big: false },
-      { dy: 52, big: false },
-      { dy: 66, big: false },
-      { dy: 84, big: true }
+      { dy: 20, big: true,  t: "Pray one Our Father." },
+      { dy: 38, big: false, t: "The first of three Hail Marys, traditionally for faith." },
+      { dy: 52, big: false, t: "The second of three Hail Marys, traditionally for hope." },
+      { dy: 66, big: false, t: "The third of three Hail Marys, traditionally for charity." },
+      { dy: 84, big: true,  t: "Pray one Glory Be, then go on to the medal." }
     ];
     svg.appendChild(el("line", {
       x1: CX, y1: top, x2: CX, y2: top + 96,
       stroke: "var(--hairline)", "stroke-width": 1.2
     }));
     stops.forEach(function (s) {
-      svg.appendChild(bead(CX, top + s.dy, s.big ? 5.4 : 3.9, s.big));
+      svg.appendChild(bead(CX, top + s.dy, s.big ? 5.4 : 3.9, s.big, s.t));
     });
 
     /* the crucifix */
     var cTop = top + 100;
-    svg.appendChild(el("line", {
+    var cross = el("g", {});
+    cross.appendChild(el("line", {
       x1: CX, y1: cTop, x2: CX, y2: cTop + 34,
       stroke: INK, "stroke-width": 2.2, "stroke-linecap": "round"
     }));
-    svg.appendChild(el("line", {
+    cross.appendChild(el("line", {
       x1: CX - 11, y1: cTop + 12, x2: CX + 11, y2: cTop + 12,
       stroke: INK, "stroke-width": 2.2, "stroke-linecap": "round"
     }));
+    /* An invisible disc over the crucifix: two thin strokes are a very small
+       target for a finger, and the cross itself should not be fattened. */
+    cross.appendChild(el("circle", { cx: CX, cy: cTop + 17, r: 20, fill: "transparent" }));
+    svg.appendChild(speaks(cross,
+      "Begin here. Make the Sign of the Cross, then pray the Apostles' Creed."));
   })();
 </script>
 </body>
