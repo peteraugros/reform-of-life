@@ -379,3 +379,176 @@ footer.colophon a { color: var(--ink-soft); }
   .page-break { break-before: page; }
   a { text-decoration: none; }
 }
+
+/* ---------------------------------------------------------------------
+   THE RECORD
+
+   Kept visually quieter than the reading matter. It is an instrument on
+   a page whose real content is the text, so it reads as a margin note
+   rather than a dashboard; the moment it starts to look like a habit app
+   it competes with the thing it is meant to support.
+   --------------------------------------------------------------------- */
+.record-card {
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  background: var(--paper-sunk);
+  padding: 1.1rem 1.15rem 0.9rem;
+  margin: 2rem 0 0;
+}
+.record-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.record-count {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.record-steps { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.85rem; }
+.record-step {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  /* 44px is the smallest target a thumb hits reliably, and this is a
+     phone-first surface tapped one-handed. */
+  min-height: 44px;
+  padding: 0.35rem 0.5rem 0.35rem 0.35rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.record-step:hover { background: var(--paper); border-color: var(--hairline); }
+.record-step .tick {
+  flex: 0 0 auto;
+  width: 22px; height: 22px;
+  border: 1.5px solid var(--hairline);
+  border-radius: 50%;
+  background: var(--paper);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; line-height: 1;
+  color: transparent;
+}
+.record-step.done .tick { border-color: var(--rubric); background: var(--rubric); color: #fff; }
+.record-label { display: flex; align-items: baseline; gap: 0.55rem; flex-wrap: wrap; min-width: 0; }
+.record-step-name { font-size: 1rem; }
+.record-step.done .record-step-name { color: var(--ink-soft); }
+.record-when {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.record-note {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0.85rem 0 0;
+}
+
+/* ---- landing page summary ---- */
+.record-summary { display: flex; flex-direction: column; margin-top: 0.9rem; }
+.record-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 44px;
+  padding: 0.5rem 0.15rem;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid var(--hairline);
+}
+.record-row:last-child { border-bottom: none; }
+.record-row-title { font-size: 1.02rem; }
+.record-row-state {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+  text-align: right;
+  min-width: 5.6rem;
+  font-variant-numeric: tabular-nums;
+}
+.dots { display: inline-flex; gap: 4px; }
+.dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  border: 1px solid var(--hairline);
+  background: transparent;
+  display: inline-block;
+}
+.dot.on { background: var(--rubric); border-color: var(--rubric); }
+
+/* ---- the second layer, announced from the first visit ---- */
+.layer-two {
+  border: 1px solid var(--hairline);
+  border-left: 2px solid var(--ink-soft);
+  border-radius: 3px;
+  padding: 1.2rem 1.2rem 1.1rem;
+  margin-top: 1.6rem;
+}
+.layer-two.open { border-left-color: var(--rubric); background: var(--paper-sunk); }
+.layer-two h3 { margin: 0.35rem 0 0.5rem; font-size: 1.3rem; }
+.layer-two-blurb { margin: 0 0 0.7rem; color: var(--ink-soft); font-size: 0.98rem; }
+.layer-two-req { margin: 0 0 0.6rem; font-size: 0.95rem; }
+.layer-two-count {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--rubric);
+  margin: 0;
+}
+.layer-two-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.3rem; }
+.layer-two-link {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--rubric);
+  border: 1px solid var(--rubric);
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.layer-two-link:hover { background: var(--rubric); color: var(--paper); }
+
+/* ---- the note at the top of a second-layer page reached early ---- */
+.gate {
+  border: 1px dashed var(--hairline);
+  border-radius: 3px;
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 2rem;
+  background: var(--paper-sunk);
+}
+.gate p { margin: 0.4rem 0 0.7rem; color: var(--ink-soft); font-size: 0.98rem; }
+.gate a { font-family: var(--sans); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* ---- export, restore, reset ---- */
+.tools { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.4rem; }
+.tool-btn {
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  font-weight: 500;
+  min-height: 44px;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+}
+.tool-btn:hover { border-color: var(--rubric); color: var(--rubric); }
+.tool-btn.quiet { color: var(--ink-soft); }
+
+@media print {
+  /* The record is an instrument, not part of the document. A printed page
+     handed to somebody should be the text and nothing else. */
+  .record-card, .layer-two, .gate, .tools, [data-tools], [data-summary] { display: none; }
+}
