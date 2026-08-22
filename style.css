@@ -830,10 +830,30 @@ body.cover {
 }
 
 .poster-rule {
-  color: #C9A45C;
-  font-size: 0.9rem;
-  margin: 1.1rem 0 1rem;
-  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  margin: 1.2rem 0 1.1rem;
+}
+/* Hairlines that fade out at their far ends, so the ornament sits in the
+   page rather than being ruled off from it. */
+.poster-rule-line {
+  height: 1px;
+  width: clamp(2.2rem, 12vw, 4.5rem);
+  background: linear-gradient(to right, rgba(201,164,92,0), rgba(201,164,92,0.75));
+}
+.poster-rule-line:last-child {
+  background: linear-gradient(to left, rgba(201,164,92,0), rgba(201,164,92,0.75));
+}
+.poster-cross {
+  width: 13px;
+  height: 17px;
+  flex: 0 0 auto;
+  stroke: #C9A45C;
+  stroke-width: 2;
+  stroke-linecap: round;
+  fill: none;
 }
 
 .poster-motto {

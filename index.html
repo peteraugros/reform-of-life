@@ -48,7 +48,17 @@
   <div class="poster-text">
     <h1 class="poster-title">Reform of Life</h1>
 
-    <div class="poster-rule" aria-hidden="true">&#10013;</div>
+    <!-- Drawn, not typed. The cross character (U+271D) is mapped to an emoji
+         on Apple platforms, so it arrived as a flat purple glyph that no CSS
+         colour could touch; a font cannot substitute a path. Flanked by two
+         hairlines the way the ornament sits in the original poster. -->
+    <div class="poster-rule" aria-hidden="true">
+      <span class="poster-rule-line"></span>
+      <svg class="poster-cross" viewBox="0 0 24 32" aria-hidden="true">
+        <path d="M12 2 L12 30 M4 10 L20 10" />
+      </svg>
+      <span class="poster-rule-line"></span>
+    </div>
 
     <p class="poster-motto">Return to Christ.<br>Renew your heart.<br>Transform your life.</p>
 
