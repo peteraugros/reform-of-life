@@ -1,0 +1,360 @@
+/* ---------------------------------------------------------------------
+   Reform of Life; shared styles.
+
+   The visual system follows the rubric tradition of missals and
+   breviaries: instructions print in red, the prayers themselves in
+   black. That is where the word "rubric" comes from, and it encodes
+   exactly the distinction a beginner needs, which is the difference
+   between what you SAY and what you DO.
+
+   One family carries the reading matter (EB Garamond, descended from
+   the faces liturgical books have been set in for four centuries) and
+   a plain modern face carries the apparatus (Archivo, for labels,
+   step numbers, and anything that instructs rather than prays).
+   --------------------------------------------------------------------- */
+
+:root {
+  --paper:      #FBFAF7;
+  --paper-sunk: #F4F1EA;
+  --ink:        #1A1614;
+  --ink-soft:   #6B6259;
+  --rubric:     #A8201A;
+  --rubric-pale:#F0E0DD;
+  --hairline:   #E3DED4;
+
+  --serif: "EB Garamond", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --sans:  "Archivo", "Helvetica Neue", Arial, sans-serif;
+
+  --measure: 34rem;
+}
+
+/* The viewer has three theme states, not two: an explicit choice stamps
+   the root element, and the default "system" setting stamps nothing. So
+   the light palette lives on bare :root and the dark one is redefined
+   twice; tokens only, never component colours. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:      #141110;
+    --paper-sunk: #1D1917;
+    --ink:        #EDE7DC;
+    --ink-soft:   #A2988B;
+    --rubric:     #D4635C;
+    --rubric-pale:#33211F;
+    --hairline:   #2E2825;
+  }
+}
+:root[data-theme="dark"] {
+  --paper:      #141110;
+  --paper-sunk: #1D1917;
+  --ink:        #EDE7DC;
+  --ink-soft:   #A2988B;
+  --rubric:     #D4635C;
+  --rubric-pale:#33211F;
+  --hairline:   #2E2825;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sheet {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 6rem;
+}
+
+/* ---- apparatus: everything that instructs rather than prays ---- */
+.label {
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rubric);
+}
+.label-quiet { color: var(--ink-soft); }
+
+/* ---- the thin masthead on interior pages ---- */
+.topbar {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 1.4rem 1.5rem 0;
+}
+.topbar a {
+  font-family: var(--sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.topbar a:hover { color: var(--rubric); }
+
+header.masthead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  text-align: center;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--hairline);
+}
+header.masthead h1 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(2.4rem, 8.5vw, 3.5rem);
+  line-height: 1.03;
+  letter-spacing: -0.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+.dedication {
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* ---- sections ---- */
+section { padding-top: 3.2rem; }
+h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.85rem;
+  line-height: 1.15;
+  margin: 0.45rem 0 1.2rem;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.22rem;
+  margin: 2rem 0 0.5rem;
+}
+p { margin: 0 0 1.05rem; }
+p.lead { font-size: 1.06rem; }
+a { color: var(--rubric); }
+
+/* ---------------------------------------------------------------------
+   Landing page: a table of contents, the way a prayer book opens.
+
+   Each entry carries its natural RHYTHM as its rubric (daily, weekly,
+   every month or so). That is the actual point of a rule of life, and
+   it is information rather than decoration; a reader can see the shape
+   of the week before reading a word of the descriptions.
+   --------------------------------------------------------------------- */
+ol.contents { list-style: none; margin: 2.5rem 0 0; padding: 0; }
+ol.contents > li { border-top: 1px solid var(--hairline); }
+ol.contents > li:last-child { border-bottom: 1px solid var(--hairline); }
+
+a.entry {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr;
+  gap: 1rem;
+  padding: 1.6rem 0.4rem 1.6rem 0;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 140ms ease;
+}
+a.entry:hover, a.entry:focus-visible { background: var(--paper-sunk); }
+a.entry .numeral {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--rubric);
+  text-align: right;
+  margin-top: 0.55rem;
+  font-variant-numeric: tabular-nums;
+}
+a.entry .entry-title {
+  font-family: var(--serif);
+  font-size: 1.65rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  display: block;
+}
+a.entry .entry-rhythm {
+  font-family: var(--sans);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rubric);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+a.entry .entry-blurb {
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  display: block;
+  margin-top: 0.3rem;
+  text-wrap: pretty;
+}
+
+/* ---- the rosary diagram ---- */
+figure.beads {
+  margin: 2rem 0 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+figure.beads svg { width: 100%; max-width: 300px; height: auto; display: block; }
+figcaption {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  text-align: center;
+  max-width: 30rem;
+}
+
+/* ---- numbered walkthroughs ---- */
+ol.walk { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.45rem; }
+ol.walk > li { display: grid; grid-template-columns: 2.6rem 1fr; gap: 0.9rem; align-items: start; }
+.marker {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--rubric);
+  background: var(--rubric-pale);
+  border-radius: 999px;
+  padding: 0.3rem 0;
+  text-align: center;
+  margin-top: 0.28rem;
+  font-variant-numeric: tabular-nums;
+}
+.step-do {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rubric);
+  display: block;
+  margin-bottom: 0.18rem;
+}
+.step-say { margin: 0; }
+.step-say + .step-say { margin-top: 0.6rem; }
+.step-say em { color: var(--ink-soft); }
+
+/* ---- grouped sets (mysteries, parts of the Mass, the four Gospels) ---- */
+.set { border-top: 1px solid var(--hairline); padding-top: 1.8rem; margin-top: 2.4rem; }
+.set:first-of-type { border-top: none; padding-top: 0; margin-top: 1.2rem; }
+.set-head { display: flex; flex-direction: column; gap: 0.28rem; margin-bottom: 1.3rem; }
+.set-head h3 { margin: 0; font-size: 1.5rem; }
+
+ol.mysteries { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.15rem; }
+ol.mysteries > li { display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.85rem; }
+.roman {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--rubric);
+  text-align: right;
+  margin-top: 0.4rem;
+  font-variant-numeric: tabular-nums;
+}
+.mystery-name { font-size: 1.06rem; font-weight: 500; display: block; }
+.mystery-meta {
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  display: block;
+  margin-top: 0.16rem;
+}
+.mystery-meta .fruit { color: var(--rubric); }
+
+/* ---- prayers and anything quoted verbatim ---- */
+.prayer { margin: 0 0 2rem; }
+.prayer h3 { margin-top: 0; }
+.prayer p, p.said {
+  background: var(--paper-sunk);
+  border-left: 2px solid var(--rubric);
+  padding: 0.95rem 1.1rem;
+  margin: 0;
+  border-radius: 2px;
+}
+
+/* A call and its response, which is most of what you say at Mass. */
+dl.responses { margin: 1.2rem 0 1.6rem; display: flex; flex-direction: column; gap: 0.9rem; }
+dl.responses div {
+  border-left: 2px solid var(--hairline);
+  padding-left: 0.95rem;
+}
+dl.responses dt {
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: 0;
+}
+dl.responses dd { margin: 0.1rem 0 0; font-weight: 500; }
+dl.responses dd::before { content: "℟ "; color: var(--rubric); font-weight: 600; }
+
+blockquote {
+  margin: 1.6rem 0;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--hairline);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+blockquote cite {
+  display: block;
+  font-style: normal;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+  color: var(--ink-soft);
+}
+
+ul.plain { margin: 0 0 1.05rem; padding-left: 1.15rem; }
+ul.plain li { margin-bottom: 0.45rem; }
+
+footer.colophon {
+  margin-top: 4rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--hairline);
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  font-style: italic;
+}
+footer.colophon a { color: var(--ink-soft); }
+
+:focus-visible { outline: 2px solid var(--rubric); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* ---------------------------------------------------------------------
+   Print. Every page here is meant to survive being turned into a PDF
+   and handed to somebody, so force the paper palette regardless of the
+   viewer's theme and keep each set whole across a page break.
+   --------------------------------------------------------------------- */
+@media print {
+  :root {
+    --paper: #fff; --paper-sunk: #F6F3EE; --ink: #16120F; --ink-soft: #5A524A;
+    --rubric: #9C1B16; --rubric-pale: #F2E3E1; --hairline: #DDD6CB;
+  }
+  body { font-size: 11.5pt; line-height: 1.5; background: #fff; }
+  .sheet { max-width: 100%; padding: 0; }
+  .topbar { display: none; }
+  @page { margin: 16mm 18mm; }
+  section { padding-top: 1.6rem; break-inside: avoid; }
+  .set, .prayer, ol.walk > li { break-inside: avoid; }
+  figure.beads svg { max-width: 200px; }
+  .page-break { break-before: page; }
+  a { text-decoration: none; }
+}
