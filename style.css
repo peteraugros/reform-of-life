@@ -321,6 +321,27 @@ blockquote cite {
   color: var(--ink-soft);
 }
 
+/* Scripture references link out to the text at the USCCB, which is the
+   translation read at Mass in the United States, so the words match what
+   you hear on Sunday. Deliberately QUIET: twenty red links running down
+   the Mysteries would turn a calm page into a link farm, so the reference
+   keeps its own color and only the underline says it is a link. */
+a.ref {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--hairline);
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+a.ref:hover, a.ref:focus-visible {
+  color: var(--rubric);
+  text-decoration-color: var(--rubric);
+}
+@media print {
+  /* On paper a link is just words, and the underline is noise. */
+  a.ref { text-decoration: none; }
+}
+
 ul.plain { margin: 0 0 1.05rem; padding-left: 1.15rem; }
 ul.plain li { margin-bottom: 0.45rem; }
 
