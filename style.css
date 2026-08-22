@@ -552,3 +552,189 @@ footer.colophon a { color: var(--ink-soft); }
      handed to somebody should be the text and nothing else. */
   .record-card, .layer-two, .gate, .tools, [data-tools], [data-summary] { display: none; }
 }
+
+/* ---------------------------------------------------------------------
+   CONTACT FORM
+   --------------------------------------------------------------------- */
+.contact-form { display: flex; flex-direction: column; gap: 1.1rem; margin-top: 1.6rem; }
+.field { display: flex; flex-direction: column; gap: 0.35rem; }
+.field label {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rubric);
+}
+.field .optional {
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--ink-soft);
+}
+.field input, .field select, .field textarea {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  padding: 0.7rem 0.8rem;
+  min-height: 44px;
+  width: 100%;
+}
+.field textarea { line-height: 1.55; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: 2px solid var(--rubric);
+  outline-offset: 1px;
+  border-color: var(--rubric);
+}
+/* The honeypot: off-screen rather than display:none, which some bots skip. */
+.field.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.send-btn, .card-btn {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  min-height: 46px;
+  padding: 0.7rem 1.5rem;
+  background: var(--rubric);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+.send-btn:disabled, .card-btn:disabled { opacity: 0.6; cursor: default; }
+.form-status {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--ink-soft);
+}
+.form-status.warn { color: var(--rubric); }
+.form-status.good { color: #1e7f3b; }
+
+/* ---------------------------------------------------------------------
+   EXAMINATION OF CONSCIENCE
+
+   🔴 NOTHING HERE IS EVER STORED. Not in localStorage beside the progress
+   record, not anywhere. It lives in memory and is gone the moment the page
+   is reloaded, which is deliberate and is stated on the page: a list of a
+   person's sins is the one thing this site must never keep, including on
+   the reader's own phone where somebody else might pick it up.
+   --------------------------------------------------------------------- */
+.exam-group { margin-top: 1.8rem; }
+.exam-group h3 { margin-bottom: 0.3rem; }
+.exam-group .exam-hint {
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+  margin: 0 0 0.7rem;
+}
+.exam-list { display: flex; flex-direction: column; gap: 0.25rem; }
+.exam-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.55rem 0.6rem 0.55rem 0.4rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font: inherit;
+  font-size: 1rem;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  line-height: 1.45;
+}
+.exam-item:hover { background: var(--paper-sunk); }
+.exam-item .box {
+  flex: 0 0 auto;
+  width: 20px; height: 20px;
+  margin-top: 2px;
+  border: 1.5px solid var(--hairline);
+  border-radius: 3px;
+  background: var(--paper);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; line-height: 1; color: transparent;
+}
+.exam-item.on .box { border-color: var(--rubric); background: var(--rubric); color: #fff; }
+.exam-item.on { color: var(--ink); }
+
+.exam-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-top: 1.8rem; }
+.exam-count {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- the card it produces ---- */
+.card-sheet {
+  border: 1px solid var(--hairline);
+  border-top: 2px solid var(--rubric);
+  border-radius: 3px;
+  background: var(--paper-sunk);
+  padding: 1.5rem 1.4rem;
+  margin-top: 2rem;
+}
+.card-sheet h3 { margin-top: 0; }
+.card-say {
+  background: var(--paper);
+  border-left: 2px solid var(--rubric);
+  padding: 0.85rem 1rem;
+  border-radius: 2px;
+  margin: 0 0 1rem;
+}
+.card-sins { list-style: none; margin: 0 0 1.2rem; padding: 0; }
+.card-sins li {
+  padding: 0.45rem 0 0.45rem 1.2rem;
+  border-bottom: 1px solid var(--hairline);
+  position: relative;
+  line-height: 1.45;
+}
+.card-sins li:last-child { border-bottom: none; }
+.card-sins li::before {
+  content: "·";
+  position: absolute; left: 0.35rem;
+  color: var(--rubric);
+  font-weight: 700;
+}
+.card-since {
+  font-family: var(--serif);
+  font-size: 1rem;
+  border: none;
+  border-bottom: 1px solid var(--rubric);
+  background: transparent;
+  color: var(--ink);
+  padding: 0 0.3rem;
+  min-width: 9rem;
+}
+.card-since:focus { outline: 2px solid var(--rubric); outline-offset: 2px; }
+
+@media print {
+  /* Printing the card prints the CARD. Everything else on this long page
+     is instructions you have already read, and a person taking this into a
+     confessional wants one page, not nine. */
+  body.card-open .sheet > *:not(#confession-card) { display: none !important; }
+  body.card-open #confession-card { display: block !important; margin: 0; border: none; background: #fff; padding: 0; }
+  body.card-open .card-actions { display: none !important; }
+  body.card-open .card-say { background: #fff; }
+}
+
+.colophon p { margin: 0 0 0.6rem; }
+.colophon-sep { margin: 0 0.5rem; color: var(--hairline); }
+.colophon a {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-style: normal;
+  text-decoration: none;
+}
+.colophon a:hover { color: var(--rubric); }
