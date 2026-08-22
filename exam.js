@@ -27,7 +27,7 @@
   var GROUPS = [
     {
       title: "Toward God",
-      hint: "Where he has come in the order of things.",
+      hint: "Where God has come in the order of your life.",
       items: [
         ["Have I prayed at all, or only when I wanted something?", "I have not really prayed, or only when I wanted something."],
         ["Have I missed Mass on a Sunday without a serious reason?", "I have missed Mass on Sunday without a serious reason."],
@@ -39,7 +39,7 @@
     },
     {
       title: "Toward other people",
-      hint: "Most of it lives here, and most of it is small and repeated.",
+      hint: "Most of what we bring to confession is here, and most of it is ordinary.",
       items: [
         ["Have I been unkind or cruel, in person or online?", "I have been unkind and at times cruel."],
         ["Have I lied, or let somebody believe something I knew was false?", "I have lied, and let people believe things I knew were false."],
@@ -57,7 +57,7 @@
     },
     {
       title: "Toward yourself",
-      hint: "The ones that are easiest to call personality rather than sin.",
+      hint: "The things we most easily excuse in ourselves.",
       items: [
         ["Have I got drunk, or used something to escape?", "I have used drink or other things to escape."],
         ["Have I wasted whole days and then said I had no time?", "I have wasted my time and then claimed I had none."],
