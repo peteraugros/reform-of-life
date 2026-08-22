@@ -80,16 +80,21 @@
       </div>
 
       <div class="field">
-        <label for="reply">Your email <span class="optional">optional, only if you want a reply</span></label>
-        <input id="reply" name="reply" type="email" autocomplete="email" placeholder="Leave blank to stay anonymous">
+        <label for="email">Your email <span class="optional">optional, only if you want a reply</span></label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="Leave blank to stay anonymous">
       </div>
 
-      <!-- A honeypot: a field a person never sees and a bot fills in. It is
-           the whole spam defence here, and it costs the reader nothing. -->
+      <!-- A honeypot: a field a person never sees and a bot fills in. Named
+           _gotcha because that is Formspree's own convention, so anything that
+           fills it is dropped server-side as well as here; two filters for one
+           field, and it costs the reader nothing. -->
       <div class="field hp" aria-hidden="true">
-        <label for="website">Leave this empty</label>
-        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+        <label for="_gotcha">Leave this empty</label>
+        <input id="_gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
       </div>
+
+      <!-- Gives the notification a legible subject line instead of a form id. -->
+      <input type="hidden" name="_subject" value="Reform of Life; a message from the site">
 
       <button type="submit" class="send-btn">Send</button>
       <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
@@ -123,7 +128,7 @@
    --------------------------------------------------------------------- */
 (function () {
   "use strict";
-  var ENDPOINT = ""; // e.g. "https://formspree.io/f/xxxxxxxx"
+  var ENDPOINT = "https://formspree.io/f/xppankvz";
 
   var form = document.getElementById("contact-form");
   var status = document.getElementById("form-status");
@@ -141,7 +146,7 @@
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (!ENDPOINT) { say("Still not connected; your message would be lost, so it has not been sent.", "warn"); return; }
-    if (form.website.value) return;              // a bot filled the honeypot
+    if (form._gotcha.value) return;              // a bot filled the honeypot
     if (!form.message.value.trim()) { say("Write something first.", "warn"); return; }
 
     var btn = form.querySelector(".send-btn");
